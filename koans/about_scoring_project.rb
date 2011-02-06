@@ -31,6 +31,28 @@ require File.expand_path(File.dirname(__FILE__) + '/edgecase')
 
 def score(dice)
   # You need to write this method
+  # Use a hash to find out how many of each number
+  # Use inject to add up the sum for each key/value pair
+  h = {}
+  dice.map { |n| h[n] = h[n] ? h[n] + 1 : 1 }
+  h.keys.inject(0) { |sum, key| sum + score_for_this?(key, h[key])}
+end
+
+def score_for_this?(key, value)
+    if value > 3
+      trips = value % 3
+      rems = value / 3
+      return 1000 * trips + 100 * rems if key == 1
+      return 100 * key * trips + 50 * rems if key == 5
+      return 100 * key * trips 
+    elsif value == 3
+      return 1000 if key == 1 
+      return 100 * key
+    else
+      return 100 * value if key == 1
+      return 50 * value if key == 5
+    end
+    return 0
 end
 
 class AboutScoringProject < EdgeCase::Koan
