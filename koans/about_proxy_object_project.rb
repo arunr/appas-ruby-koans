@@ -18,7 +18,9 @@ class Proxy
     # ADD MORE CODE HERE
   end
 
-  # WRITE CODE HERE
+  def method_missing(method_name, *args, &block)
+      eval("@object.method_name.call(*args, &block)")
+  end
 end
 
 # The proxy object should pass the following Koan:
